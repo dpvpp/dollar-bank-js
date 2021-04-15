@@ -1,6 +1,7 @@
 import './App.css';
-import greed from './images/greed.png'
-import glory from './images/glory.png'
+import greed from './images/greed.png';
+import glory from './images/glory.png';
+import GetPin from './components/GetPin';
 
 function App() {
   return (
@@ -8,23 +9,19 @@ function App() {
       <div class="container">
         <div class="text-center">
           <div class="row">
-            <div class="col-sm">
-              <h1>Dollars Bank ATM</h1>
+            <div class="col">
+              <h1 style={{color:'white',backgroundColor: 'green'}}>Dollars Bank ATM</h1>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm">
-              <img alt="Greed" src={greed} class="rounded float-end"/>
+            <div class="col">
+              <img alt="Greed" src={greed} class="img-fluid rounded float-end"/>
             </div>
-            <div class="col-sm">
-              <form>
-                <label for="pin">Enter Pin: </label><br/>
-                <input type="password" id="pin" name="pin" maxlength="4" /><br/>
-                <input type="submit" class="btn btn-primary" value="Enter"/>
-              </form> 
+            <div class="col">
+              <GetPin />
             </div>
-            <div class="col-sm">
-              <img alt="Glory" src={glory} class="rounded float-start"/>
+            <div class="col">
+              <img alt="Glory" src={glory} class="img-fluid rounded float-start"/>
             </div>
           </div>
         </div>
