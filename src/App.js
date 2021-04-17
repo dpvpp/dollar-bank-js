@@ -1,15 +1,19 @@
 import './App.css';
+import { useState } from 'react';
 import greed from './images/greed.png';
 import glory from './images/glory.png';
 import GetPin from './components/GetPin';
-import { useState } from 'react';
 import Account from './classes/Account'
 import AccountOptions from './components/AccountOptions'
+import OpenAccount from './components/OpenAccount';
 
 function App() {
   let accounts = new Map();
+  
+  const[account, setAccount] = useState(null);
   const[pin,setPin] = useState(0);
-  const[menu, setMenu] = useState(0)
+  const[menu, setMenu] = useState(0);
+  const[error, setError] = useState(0);
 
   const addAccounts = () => {
     accounts.set('1234', new Account('1234', 1234))
@@ -22,27 +26,75 @@ function App() {
 
   const submitPin = () => {
     if(accounts.get(pin) != null) {
-      setMenu(1);
+      setAccount(accounts.get(pin))
+      setMenu(2);
+      setError(0);
     }
     else {
-      getMenu();
+      setMenu(0);
+      setError(1);
     }
+  }
+
+  const submitAccount = (amount) => {
+    if(accounts.get(pin) != null) {
+      setMenu(1);
+      setError(2);
+    }
+    else {
+      setAccount(new Account(pin, amount))
+      accounts.set(pin, account);
+      setMenu(2);
+      setError(0);
+    }
+  }
+  
+  const signOut = () => {
+    setAccount(null);
+    setMenu(0);
+  }
+
+  const switchToOpenAccount = () => {
+    setMenu(1);
   }
 
   const getMenu = () => {
     switch(menu) {
       case 0 :
         return(
-          <GetPin setPin={setPin} submitPin={submitPin}/>
+          <GetPin setPin={setPin} submitPin={submitPin} switchToOpenAccount={switchToOpenAccount}/>
         );
-      case 1 :
+      case 1:
         return(
-          <AccountOptions />
+          <OpenAccount setPin={setPin} signOut={signOut} submitAccount={submitAccount}/>
+        )
+      case 2 :
+        return(
+          <AccountOptions signOut={signOut}/>
         );
       default :
         return (
-          <h1>Some strange error has occurred</h1>
-        )
+          <p style={{color:"red"}}>Some strange error has occurred</p>
+        );
+    }
+  }
+
+  const getError = () => {
+    switch(error) {
+      case 0: 
+        break;
+      case 1:
+        return (
+          <p style={{color:"red"}}>Invalid Pin, try again</p>
+        );
+      case 2:
+        return (
+          <p style={{color:"red"}}>Pin unavailable, try again</p>
+        );
+      default :
+        return (
+          <p style={{color:"red"}}>Some strange error has occurred</p>
+        );
     }
   }
 
@@ -58,6 +110,7 @@ function App() {
               </div>
               <div class="col">
                 {getMenu()}
+                {getError()}
               </div>
               <div class="col">
                 <img alt="Glory" src={glory} class="img-fluid rounded float-start"/>
