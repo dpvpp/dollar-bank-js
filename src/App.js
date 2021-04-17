@@ -3,25 +3,28 @@ import { useState } from 'react';
 import greed from './images/greed.png';
 import glory from './images/glory.png';
 import GetPin from './components/GetPin';
-import Account from './classes/Account'
 import AccountOptions from './components/AccountOptions'
 import OpenAccount from './components/OpenAccount';
+import Balance from './components/Balance';
+import PrintTransactions from './components/PrintTransactions';
 
 function App() {
-  let accounts = new Map();
-  
+
+  const[accounts, setAccounts] = useState(new Map([
+    ['1234', { pin: '1234', balance: 1234, transactions: ["Initial Deposit: " + 1234 + " " + new Date()]}],
+    ['1111', { pin: '1111', balance: 1111, transactions: ["Initial Deposit: " + 1111 + " " + new Date()]}],
+    ['2222', { pin: '2222', balance: 1232, transactions: ["Initial Deposit: " + 1232 + " " + new Date()]}],
+    ['3333', { pin: '2222', balance: 1232, transactions: ["Initial Deposit: " + 1232 + " " + new Date()]}],
+    ['4444', { pin: '2222', balance: 1232, transactions: ["Initial Deposit: " + 1232 + " " + new Date()]}],
+    ['5555', { pin: '2222', balance: 1232, transactions: ["Initial Deposit: " + 1232 + " " + new Date()]}]
+  ]));
   const[account, setAccount] = useState(null);
   const[pin,setPin] = useState(0);
   const[menu, setMenu] = useState(0);
   const[error, setError] = useState(0);
 
-  const addAccounts = () => {
-    accounts.set('1234', new Account('1234', 1234))
-    accounts.set('1111', new Account('1111', 1111))
-    accounts.set('1122', new Account('1122', 1232))
-    accounts.set('3333', new Account('3333', 13234))
-    accounts.set('4444', new Account('4444', 4444))
-    accounts.set('5555', new Account('5555', 5555))
+  const updateAccounts = (k,v) => {
+    setAccounts(new Map(accounts.set(k, v)));
   }
 
   const submitPin = () => {
@@ -42,8 +45,8 @@ function App() {
       setError(2);
     }
     else {
-      setAccount(new Account(pin, amount))
-      accounts.set(pin, account);
+      setAccount({pin: pin, balance: amount, transactions: ["Initial Deposit: " + amount + " " + new Date()]})
+      updateAccounts(pin, account);
       setMenu(2);
       setError(0);
     }
@@ -54,24 +57,29 @@ function App() {
     setMenu(0);
   }
 
-  const switchToOpenAccount = () => {
-    setMenu(1);
-  }
 
   const getMenu = () => {
     switch(menu) {
       case 0 :
         return(
-          <GetPin setPin={setPin} submitPin={submitPin} switchToOpenAccount={switchToOpenAccount}/>
+          <GetPin setPin={setPin} submitPin={submitPin} setMenu={setMenu}/>
         );
       case 1:
         return(
-          <OpenAccount setPin={setPin} signOut={signOut} submitAccount={submitAccount}/>
+          <OpenAccount setPin={setPin} signOut={signOut} submitAccount={submitAccount} />
         )
       case 2 :
         return(
-          <AccountOptions signOut={signOut}/>
+          <AccountOptions signOut={signOut} setMenu={setMenu}/>
         );
+      case 3 : 
+        return(
+          <Balance balance={account.balance} setMenu={setMenu}/>
+        )
+      case 4 : 
+        return(
+          <PrintTransactions transactions={account.transactions} setMenu={setMenu} />
+        )
       default :
         return (
           <p style={{color:"red"}}>Some strange error has occurred</p>
@@ -100,7 +108,6 @@ function App() {
 
   return (
     <div>
-        {addAccounts()}
         <div class="text-center">
           <h1 style={{color:'white',backgroundColor: 'green'}}>Dollars Bank ATM</h1>
           <div class="container">  
