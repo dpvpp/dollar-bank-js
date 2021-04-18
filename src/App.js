@@ -78,7 +78,7 @@ function App() {
     }
     else {
       let update = {pin: account.pin, balance: account.balance, transactions: account.transactions};
-      update.balance = (parseFloat(update.balance) - parseFloat(amount)).toFixed(2);
+      update.balance = parseFloat((update.balance) - parseFloat(amount)).toFixed(2);
       update.transactions.push("Withdrawal: $" + amount + " " + new Date())
       
       setAccount(update);
