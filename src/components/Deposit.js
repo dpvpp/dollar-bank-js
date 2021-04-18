@@ -21,12 +21,12 @@ function Deposit(props) {
 
     return(
         <div>
-            <h1>Withdraw</h1>
+            <h1>Deposit</h1>
             <h5>Available Balance: ${props.balance}</h5>
             <form onSubmit={submitHandler}>
 
-                <label for="init">Enter Amount to Deposit: </label><br/>
-                <input type="number" id="init" name="init" min="0"
+                <label for="deposit">Enter Amount to Deposit: </label><br/>
+                <input type="number" id="deposit" name="deposit" min="0" step="0.01"
                 onChange={amountHandler} value={amount} style={{width:200}} required/><br/>
                 
                 <button type="button" class="btn btn-primary" style={{margin:'5px'}} onClick={back}>Back</button>

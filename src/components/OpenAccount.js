@@ -25,7 +25,7 @@ function OpenAccount(props) {
                 onChange={pinHandler} style={{width:200}} required/><br/>
 
                 <label for="init">Enter Initial Deposit: </label><br/>
-                <input type="number" id="init" name="init" min="0"
+                <input type="number" id="init" name="init" min="0" step="0.01"
                 onChange={amountHandler} value={amount} style={{width:200}} required/><br/>
                 
                 <button type="button" class="btn btn-primary" style={{margin:'5px'}} onClick={props.signOut}>Cancel</button>
