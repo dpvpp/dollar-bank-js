@@ -1,39 +1,41 @@
 import React, { useState } from 'react';
 
-function OpenAccount(props) {
+function Deposit(props) {
 
     const[amount, setAmount] = useState(0);
 
     const submitHandler = (event) => {
         event.preventDefault();
-        props.submitAccount(amount);
-    }
-
-    const pinHandler = (event) => {
-        props.setPin(event.target.value);
+        props.submitDeposit(amount);
     }
 
     const amountHandler = (event) => {
         setAmount(event.target.value);
     }
 
+    const back = () => {
+        props.setMenu(2);
+        props.setError(0);
+        props.setSuccess(0);
+    }
+
     return(
         <div>
+            <h1>Withdraw</h1>
+            <h5>Available Balance: ${props.balance}</h5>
             <form onSubmit={submitHandler}>
-                <label for="pin">Enter Pin: </label><br/>
-                <input type="password" id="pin" name="pin" maxlength="4" minlength="4" 
-                onChange={pinHandler} style={{width:200}} required/><br/>
 
-                <label for="init">Enter Initial Deposit: </label><br/>
+                <label for="init">Enter Amount to Deposit: </label><br/>
                 <input type="number" id="init" name="init" min="0"
                 onChange={amountHandler} value={amount} style={{width:200}} required/><br/>
                 
-                <button type="button" class="btn btn-primary" style={{margin:'5px'}} onClick={props.signOut}>Cancel</button>
+                <button type="button" class="btn btn-primary" style={{margin:'5px'}} onClick={back}>Back</button>
                 <input type="submit" class="btn btn-primary" value="Submit" style={{margin:'5px'}}/>
+
             </form> 
         </div>
     )
 
 }
 
-export default OpenAccount;
+export default Deposit
