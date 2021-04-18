@@ -25,8 +25,8 @@ function Withdraw(props) {
             <h5>Available Balance: ${props.balance}</h5>
             <form onSubmit={submitHandler}>
 
-                <label for="init">Enter Amount to Withdraw: </label><br/>
-                <input type="number" id="init" name="init" min="0"
+                <label for="withdraw">Enter Amount to Withdraw: </label><br/>
+                <input type="number" id="withdraw" name="withdraw" min="0" step="0.01"
                 onChange={amountHandler} value={amount} style={{width:200}} required/><br/>
                 
                 <button type="button" class="btn btn-primary" style={{margin:'5px'}} onClick={back}>Back</button>
